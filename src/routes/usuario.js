@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 //Modelos 
 let Usuario = require('../models/Usuario');
-const { update } = require('../models/Usuario');
+
 
 app.post('/usuario', (req, res) => {
 
@@ -63,8 +63,30 @@ app.put('/usuario/:id', (req, res) => {
 
 
 app.delete('/usuario/:id', function (req, res) {
+    let id = req.params.id;
 
-  
+    Usuario.findByIdAndRemove(id , (err, usuarioBorrado) => {
+
+        if (err) {
+            return res.status(500).json({
+                err
+            })
+        }
+
+        if(!usuarioBorrado){
+             return res.status(400).json({
+                ok:false,
+                err:{
+                    msj:"Usuario no encontrado"
+                }
+            }); 
+        }  
+
+        res.status(200).json({
+            ok:true,
+            usuarioBorrado
+        })
+    })
 });
 
 module.exports = app;

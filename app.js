@@ -23,9 +23,7 @@ mongoose.connect(process.env.URLDB, {
 });
 
 
-//Rutas
-app.use(require('./src/routes/producto'));
-app.use(require('./src/routes/usuario'));
+//Configuracion de rutas Globales
 app.use(require('./src/routes/index'));
 
 //Puerto Corriendo

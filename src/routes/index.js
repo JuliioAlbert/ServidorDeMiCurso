@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 
-app.get('/',  (req,res) => {
-    res.send('Bienvenidos Cafe');
-});
+app.use(require('./inicio'));
+app.use(require('./producto'));
+app.use(require('./usuario'));
+app.use(require('./login'));
+
 
 module.exports= app;
