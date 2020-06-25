@@ -13,7 +13,7 @@ process.env.TIEMPO= process.env.TIEMPO || '1hr';
 if(process.env.NODE_ENV === 'dev'){
     URL='mongodb://localhost:27017/cafe';
 }else{
-    URL= MONGO_URI
+    URL= MONGO
 }
 
 process.env.URLDB = URL;
