@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+
+const {verificaToken} = require('../middleware/autenticacion');
+
+
 //Modelos 
 let Usuario = require('../models/Usuario');
 
@@ -25,7 +29,7 @@ app.post('/usuario', (req, res) => {
     })
 });
 
-app.get('/usuario', (req,res) => {
+app.get('/usuario',verificaToken, (req,res) => {
 
     Usuario.find({}, (err, usuarios) => {
         if(err){
@@ -40,7 +44,7 @@ app.get('/usuario', (req,res) => {
     });
 }); 
 
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id',verificaToken, (req, res) => {
     let id = req.params.id;
     let body =_.pick(req.body, ['nombre', 'telefono']) ;
 
@@ -62,7 +66,7 @@ app.put('/usuario/:id', (req, res) => {
 });
 
 
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id',verificaToken,  (req, res)=> {
     let id = req.params.id;
 
     Usuario.findByIdAndRemove(id , (err, usuarioBorrado) => {
