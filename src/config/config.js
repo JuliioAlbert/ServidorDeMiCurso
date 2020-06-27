@@ -18,5 +18,11 @@ if(process.env.NODE_ENV === 'dev'){
 
 process.env.URLDB = URL;
 
+//////////////////////
+//  CLIENTE_ID
+/////////////////////
+//process.env.CLIENTE_ID =process.env.CLIENTE_ID || 'ONJ_f2zmEvCZtC4tPqJWTfJ-';
+process.env.CLIENTE_ID =process.env.CLIENTE_ID || '638983610085-fn32iv57b980a03nr5qccggncjosh7gu.apps.googleusercontent.com';
+
 //'mongodb+srv://juli:juli@cluster0-ugleq.mongodb.net/cafe'
  

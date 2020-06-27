@@ -93,30 +93,43 @@ app.put('/producto/:id', verificaToken, (req, res) => {
 app.delete('/producto/:id', verificaToken, (req, res) => {
     let id = req.params.id;
 
+    let usuarioid = req.usuario._id;
+   
     //Solo puede eliminar el producto si corresponde con el usuario autenticado
 
-
-    Producto.findByIdAndRemove(id, (err, productoBorrado) => {
-        if (err) {
-            return res.status(500).json({
-                err
-            })
-        }
-
-        if (!productoBorrado) {
+    Producto.findOne({_id: id}, (err, productoDB) => {
+        if(!(productoDB.creador.toString() === usuarioid.toString())){
             return res.status(400).json({
-                ok: false,
-                err: {
-                    msj: "Producto no encontrado"
-                }
+                msj: "No tienes permitido Eliminar este producto"
             })
         }
 
-        res.status(200).json({
-            ok: true,
-            productoBorrado
+        Producto.findByIdAndRemove(id, (err, productoBorrado) => {
+            if (err) {
+                return res.status(500).json({
+                    err
+                });
+            }
+    
+            if (!productoBorrado) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        msj: "Producto no encontrado"
+                    }
+                })
+            }
+    
+            res.status(200).json({
+                ok: true,
+                productoBorrado
+            })
         })
-    })
+        
+    });
+ 
+
+
 });
 
 module.exports = app;
