@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENTE_ID);
+
+const { verify} = require('../middleware/autenticacion');
 
 
 let Usuario = require('../models/Usuario');
 
+//Login Correo y Password
 app.post('/login', (req, res) => {
     let { correo, password } = req.body;
 
@@ -53,23 +54,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-//
-
-async function verify(token) {
-    const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: process.env.CLIENTE_ID,
-    });
-    const payload = ticket.getPayload();
-    return {
-        nombre: payload.name,
-        correo: payload.email,
-        img: payload.picture,
-        google: true
-    }
-}
-
-
+//Login de Google-Sign-In
 app.post('/login2', async (req, res) => {
 
     let token = req.body.idtoken;
